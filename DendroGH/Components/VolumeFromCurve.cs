@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
+using Rhino;
 using Rhino.Geometry;
 
 namespace DendroGH {
@@ -45,12 +46,10 @@ namespace DendroGH {
 
             double minRadius = vSettings.VoxelSize / 0.6667;
 
-            foreach (double radius in vRadius)
+            for (int i = 0; i < vRadius.Count; i++)
             {
-                if(radius <= minRadius)
-                {
-                    AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Radius must be at least 33% larger than voxel size. This will compute but no volume will be created.");
-                }
+                vRadius[i] = vRadius[i] <= minRadius ? minRadius + RhinoDoc.ActiveDoc.ModelAbsoluteTolerance : vRadius[i];
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Remark, "Invalid radius detected, it was replaced by the smallest valid value");
             }
 
             DendroVolume volume = new DendroVolume (vCurves, vRadius, vSettings);
