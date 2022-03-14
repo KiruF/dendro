@@ -850,43 +850,43 @@ namespace DendroGH {
             this.Display = this.ConstructMesh (vertices, faces);
 
             // flip and rebuild            
-            //this.Display.Normals.ComputeNormals();
-            this.Display.Normals.SetNormals(this.SmoothNormals());
+            this.Display.Normals.ComputeNormals();
+            //this.Display.Normals.SetNormals(this.SmoothNormals());
             this.Display.UnifyNormals();
             this.Display.Flip(true, true, true);
         }
 
-        //Daniel Pikers method
-        private Vector3f[] SmoothNormals()
-        {
-            int iterations = 10;
-            Mesh M2 = this.Display.DuplicateMesh();
+        ////Daniel Pikers method
+        //private Vector3f[] SmoothNormals()
+        //{
+        //    int iterations = 10;
+        //    Mesh M2 = this.Display.DuplicateMesh();
 
-            for (int iter = 0; iter < iterations; iter++)
-            {
-                Vector3f[] v = new Vector3f[M2.Normals.Count];
-                for (int i = 0; i < M2.Normals.Count; i++)
-                {
-                    int[] neighbours = M2.Vertices.GetConnectedVertices(i);
-                    Vector3d avg = new Vector3d();
-                    foreach (int j in neighbours)
-                    {
-                        avg += M2.Normals[j];
-                    }
-                    avg.Unitize();
-                    v[i] = new Vector3f((float)avg.X, (float)avg.Y, (float)avg.Z);
-                }
-                M2.Normals.SetNormals(v);
-            }
+        //    for (int iter = 0; iter < iterations; iter++)
+        //    {
+        //        Vector3f[] v = new Vector3f[M2.Normals.Count];
+        //        for (int i = 0; i < M2.Normals.Count; i++)
+        //        {
+        //            int[] neighbours = M2.Vertices.GetConnectedVertices(i);
+        //            Vector3d avg = new Vector3d();
+        //            foreach (int j in neighbours)
+        //            {
+        //                avg += M2.Normals[j];
+        //            }
+        //            avg.Unitize();
+        //            v[i] = new Vector3f((float)avg.X, (float)avg.Y, (float)avg.Z);
+        //        }
+        //        M2.Normals.SetNormals(v);
+        //    }
 
-            var newNormals = new Vector3f[M2.Normals.Count];
-            for (int i = 0; i < M2.Normals.Count; i++)
-            {
-                newNormals[i] = M2.Normals[i];
-            }
+        //    var newNormals = new Vector3f[M2.Normals.Count];
+        //    for (int i = 0; i < M2.Normals.Count; i++)
+        //    {
+        //        newNormals[i] = M2.Normals[i];
+        //    }
 
-            return newNormals;
-        }
+        //    return newNormals;
+        //}
 
         /// <summary>
         /// gets vertex buffer array over from c++
