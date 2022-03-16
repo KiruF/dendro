@@ -25,6 +25,7 @@ namespace DendroGH {
         /// </summary>
         protected override void RegisterOutputParams (GH_Component.GH_OutputParamManager pManager) {
             pManager.AddMeshParameter ("Mesh", "M", "Mesh conversion of volume", GH_ParamAccess.item);
+            pManager.AddTextParameter("Log", "L", "If mesh is invalid, here is why", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -45,7 +46,13 @@ namespace DendroGH {
 
             mVolume.UpdateDisplay (vSettings);
 
+            var volumeAsMesh = mVolume.Display;
+            var log = string.Empty;
+            if (!volumeAsMesh.IsValid)
+                volumeAsMesh.IsValidWithLog(out log);
+
             DA.SetData (0, mVolume.Display);
+            DA.SetData(1, log);
         }
 
         /// <summary>
