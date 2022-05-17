@@ -47,7 +47,7 @@ namespace DendroGH {
             mVolume.UpdateDisplay (vSettings);
 
             var volumeAsMesh = mVolume.Display;
-            var log = string.Empty;
+            var log = "The mesh is Valid";
             if (!volumeAsMesh.IsValid)
                 volumeAsMesh.IsValidWithLog(out log);
 
